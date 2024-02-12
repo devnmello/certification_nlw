@@ -15,8 +15,7 @@ public class StudentController {
     @PostMapping("/verifyIfHasCertification")
     public String verifyIfHasCertification(@RequestBody VerifyHasCertificationDTO verifyHasCertificationDTO) {
 
-        System.out.println(verifyIfHasCertification(verifyHasCertificationDTO));
+        System.out.println(verifyHasCertificationDTO);
         return "Usuário pode fazer a prova";
-
     }    
 }
