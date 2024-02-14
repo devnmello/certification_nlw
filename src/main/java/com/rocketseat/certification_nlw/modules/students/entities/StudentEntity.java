@@ -1,33 +1,23 @@
-package com.rocketseat.certification_nlw.modules.students.entities;
+package com.rocketseat.certification_nlw.modules.students.useCases;
 
-import java.util.List;
-import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.rocketseat.certification_nlw.modules.students.dto.VerifyHasCertificationDTO;
+import com.rocketseat.certification_nlw.modules.students.repositories.CertificationStudentRepository;
 
-@Data // Adiciona getters/setters automaticamente utilizando Lombok
-@AllArgsConstructor // Cria um construtor com todos os atributos
-@NoArgsConstructor // Cria um construtor vazio
-@Entity(name = "students")
+@Service
+public class VerifyIfHasCertificationUseCase {
 
-public class StudentEntity {
+    @Autowired
+    private CertificationStudentRepository certificationStudentRepository;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id; 
-    
-    @Column(unique = true, nullable = false)
-    private String email;
-
-    @OneToMany
-    private List<CertificationStudentEntity> CertificationStudentEntity;
-    
+    public boolean execute(VerifyHasCertificationDTO dto) {
+        var result = this.certificationStudentRepository.findByStudentEmailAndTechnology(dto.getEmail(),
+                dto.getTechnology());
+        if (!result.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
 }
